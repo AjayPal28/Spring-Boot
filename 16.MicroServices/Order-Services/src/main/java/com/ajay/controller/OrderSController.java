@@ -16,12 +16,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/core")
 @RequiredArgsConstructor
 @Slf4j
 public class OrderSController {
 
 	private final OrdersService ordersService;
+
+	@GetMapping("/helloOrders")
+	public String helloOrders() {
+		return "Hello from Orders Service";
+	}
 
 	@GetMapping
 	public ResponseEntity<List<OrderRequestDto>> getAllorders(HttpServletRequest httpServletRequest) {
@@ -31,11 +36,11 @@ public class OrderSController {
 	}
 
 	@GetMapping("/{id}")
-			public ResponseEntity<OrderRequestDto> getOrdersyld(@PathVariable(name = "id") Long id) {
-			log.info("Fetching Order with ID :{} via Controller",id);
-			OrderRequestDto order = ordersService.getOrdertyld(id);
-			return ResponseEntity.ok(order); 
+	public ResponseEntity<OrderRequestDto> getOrdersyld(@PathVariable(name = "id") Long id) {
+		log.info("Fetching Order with ID :{} via Controller", id);
+		OrderRequestDto order = ordersService.getOrdertyld(id);
+		return ResponseEntity.ok(order);
 
 	}
-	
+
 }
