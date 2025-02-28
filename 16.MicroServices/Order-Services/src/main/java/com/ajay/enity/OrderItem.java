@@ -1,7 +1,5 @@
 package com.ajay.enity;
 
-import org.hibernate.annotations.ManyToAny;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,12 +15,12 @@ import lombok.Setter;
 public class OrderItem {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private Long productId;
-	private Long quantity;
-	
-	@ManyToOne
-	@JoinColumn(name = "order_id")
-	private Orders orders;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Long productId;
+    private Integer quantity;
+
+    @ManyToOne()
+    @JoinColumn(name = "order_id")
+    private Orders order;
 }

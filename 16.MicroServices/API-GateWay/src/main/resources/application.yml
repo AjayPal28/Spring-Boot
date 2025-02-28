@@ -6,15 +6,15 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: Order-Services
+        - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/api/v1/orders/**
           filters:
             - StripPrefix=2
 #            - RedirectTo=302, http://codingshuttle.com
-        - id: Inventory-Services
-          uri: lb://INVENTORY-SERVICES
+        - id: inventory-service
+          uri: lb://INVENTORY-SERVICE
           predicates:
             - Path=/api/v1/inventory/**
           filters:
@@ -23,7 +23,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
-      
-server:
-  port: 8080
+      defaultZone: http://localhost:8761/eureka

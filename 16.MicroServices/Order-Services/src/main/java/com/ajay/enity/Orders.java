@@ -25,7 +25,7 @@ public class Orders {
 	private OrderStatus orderStatus;
 	private Double totalPrice;
 	
-	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "orders")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "order")
 	private List<OrderItem>items;
 	
 }

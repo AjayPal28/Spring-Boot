@@ -6,10 +6,13 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.ajay.dto.OrderRequestDto;
+import com.ajay.dto.OrderRequestItemDto;
 import com.ajay.dto.ProductDto;
 import com.ajay.entity.Product;
 import com.ajay.repository.ProductRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,4 +38,25 @@ public class ProductService {
 				.orElseThrow(() -> new RuntimeException("Inventory not found"));
 
 	}
+	@Transactional
+    public Double reduceStocks(OrderRequestDto orderRequestDto) {
+        log.info("Reducing the stocks");
+        Double totalPrice = 0.0;
+        for(OrderRequestItemDto orderRequestItemDto: orderRequestDto.getItems()) {
+            Long productId = orderRequestItemDto.getProductId();
+            Integer quantity = orderRequestItemDto.getQuantity();
+
+            Product product = productRepository.findById(productId).orElseThrow(() ->
+                    new RuntimeException("Product not found with id: "+productId));
+
+            if(product.getStock() < quantity) {
+                throw new RuntimeException("Product cannot be fulfilled for given quantity");
+            }
+
+            product.setStock(product.getStock()-quantity);
+            productRepository.save(product);
+            totalPrice += quantity*product.getPrice();
+        }
+        return totalPrice;
+    }
 }
